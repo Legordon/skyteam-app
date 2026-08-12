@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carnet de vol — Sky Team Companion</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#12203a">
+<link rel="icon" href="icons/icon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Carnet de vol">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <filter id="stampRough">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5"/>
+  </filter>
+</svg>
+
+<header class="topbar">
+  <h1>Carnet de vol</h1>
+  <p>SKY TEAM — SUIVI DE PROGRESSION · <span id="progress-count">0/0</span></p>
+  <div class="progress-strip" id="progress-strip"></div>
+</header>
+
+<main id="sections">
+  <p class="empty-state" id="loading-state">Chargement des scénarios…</p>
+</main>
+
+<div class="backup-bar">
+  <button id="export-btn" type="button">Exporter mes données</button>
+  <label class="import-label" for="import-input">Importer
+    <input type="file" id="import-input" accept="application/json" hidden>
+  </label>
+</div>
+
+<button class="fab" id="add-mission-fab" type="button" aria-label="Ajouter une piste">+</button>
+
+<!-- Modale de résultat -->
+<dialog id="mission-modal">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2 id="modal-title">—</h2>
+      <button class="close-btn" id="modal-close" type="button" aria-label="Fermer">✕</button>
+    </div>
+
+    <div id="choice-step">
+      <div class="choice-row">
+        <button class="choice-btn" data-status="success" type="button">
+          <span class="mini-stamp"><svg class="stamp-bg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/></svg><svg class="stamp-ink" viewBox="0 0 100 100"><g class="stamp--success"><circle class="ring-outer" cx="50" cy="50" r="42"/><circle class="ring-inner" cx="50" cy="50" r="34"/><path class="mark" d="M32 52 L45 65 L70 35"/></g></svg></span>
+          Réussi
+        </button>
+        <button class="choice-btn" data-status="failed" type="button">
+          <span class="mini-stamp"><svg class="stamp-bg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/></svg><svg class="stamp-ink" viewBox="0 0 100 100"><g class="stamp--failed"><circle class="ring-outer" cx="50" cy="50" r="42"/><circle class="ring-inner" cx="50" cy="50" r="34"/><path class="mark" d="M35 35 L65 65 M65 35 L35 65"/></g></svg></span>
+          Échec
+        </button>
+        <button class="choice-btn" data-status="pending" type="button">
+          <span class="mini-stamp"><svg class="stamp-bg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/></svg><svg class="stamp-ink" viewBox="0 0 100 100"><g class="stamp--pending"><circle class="ring" cx="50" cy="50" r="42"/><circle class="center-dot" cx="50" cy="50" r="4"/></g></svg></span>
+          En attente
+        </button>
+      </div>
+    </div>
+
+    <div id="confirm-step" class="confirm-panel hidden">
+      <p id="confirm-text">Confirmer ce résultat ?</p>
+      <div class="confirm-actions">
+        <button class="btn-cancel" id="confirm-cancel" type="button">Retour</button>
+        <button class="btn-confirm" id="confirm-ok" type="button">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- Modale d'ajout de piste -->
+<dialog id="add-mission-modal">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <h2>Ajouter une piste</h2>
+      <button class="close-btn" id="add-modal-close" type="button" aria-label="Fermer">✕</button>
+    </div>
+
+    <form id="add-mission-form">
+      <div class="form-row form-grid-2">
+        <div>
+          <label for="new-code">Indicatif</label>
+          <input type="text" id="new-code" maxlength="4" placeholder="Ex. CDG" required>
+        </div>
+        <div>
+          <label for="new-difficulty">Difficulté</label>
+          <select id="new-difficulty" required>
+            <option value="vert">Vert</option>
+            <option value="jaune">Jaune</option>
+            <option value="rouge">Rouge</option>
+            <option value="noir">Noir</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="new-airport">Nom de l'aéroport</label>
+        <input type="text" id="new-airport" placeholder="Ex. Charles-de-Gaulle" required>
+      </div>
+
+      <div class="form-row">
+        <label for="new-city">Ville (optionnel)</label>
+        <input type="text" id="new-city" placeholder="Ex. Paris">
+      </div>
+
+      <div class="form-row">
+        <label>Modules additionnels</label>
+        <div class="module-checks">
+          <label class="module-check"><input type="checkbox" value="kerosene"> Kérosène</label>
+          <label class="module-check"><input type="checkbox" value="stagiaire"> Stagiaire</label>
+          <label class="module-check"><input type="checkbox" value="temps_reel"> Temps réel</label>
+          <label class="module-check"><input type="checkbox" value="vent"> Vent</label>
+          <label class="module-check"><input type="checkbox" value="fuite_kerosene"> Fuite kérosène</label>
+          <label class="module-check"><input type="checkbox" value="freins_glace"> Freins de glace</label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="new-skillcards">Cartes compétence</label>
+        <input type="number" id="new-skillcards" min="0" max="3" value="0">
+      </div>
+
+      <div class="confirm-actions">
+        <button type="button" class="btn-cancel" id="add-mission-cancel">Annuler</button>
+        <button type="submit" class="btn-confirm">Ajouter</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<script src="app.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch((err) => {
+        console.error("Échec de l'enregistrement du service worker", err);
+      });
+    });
+  }
+</script>
+</body>
+</html>

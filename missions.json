@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "missions": [
+    { "id": "yul-vert",  "order": 1,  "code": "YUL", "airport": "Montréal-Trudeau", "city": "Montréal",       "difficulty": "vert",  "modules": [],                              "skillCards": 0, "custom": false },
+    { "id": "lhr-vert",  "order": 2,  "code": "LHR", "airport": "Heathrow",          "city": "Londres",        "difficulty": "vert",  "modules": [],                              "skillCards": 0, "custom": false },
+    { "id": "hnd-vert",  "order": 3,  "code": "HND", "airport": "Haneda",            "city": "Tokyo",          "difficulty": "vert",  "modules": [],                              "skillCards": 0, "custom": false },
+    { "id": "osl-vert",  "order": 4,  "code": "OSL", "airport": "Gardermoen",        "city": "Oslo",           "difficulty": "vert",  "modules": ["kerosene"],                    "skillCards": 0, "custom": false },
+    { "id": "atl-vert",  "order": 5,  "code": "ATL", "airport": "Hartsfield-Jackson","city": "Atlanta",        "difficulty": "vert",  "modules": ["stagiaire"],                   "skillCards": 0, "custom": false },
+    { "id": "prg-vert",  "order": 6,  "code": "PRG", "airport": "Václav Havel",      "city": "Prague",         "difficulty": "vert",  "modules": ["kerosene"],                    "skillCards": 2, "custom": false },
+
+    { "id": "lhr-jaune", "order": 7,  "code": "LHR", "airport": "Heathrow",          "city": "Londres",        "difficulty": "jaune", "modules": ["stagiaire"],                   "skillCards": 0, "custom": false },
+    { "id": "tgu-jaune", "order": 8,  "code": "TGU", "airport": "Toncontín",         "city": "Tegucigalpa",    "difficulty": "jaune", "modules": ["kerosene"],                    "skillCards": 2, "custom": false },
+    { "id": "gig-jaune", "order": 9,  "code": "GIG", "airport": "Galeão",            "city": "Rio de Janeiro", "difficulty": "jaune", "modules": ["vent"],                        "skillCards": 1, "custom": false },
+    { "id": "kef-jaune", "order": 10, "code": "KEF", "airport": "Keflavík",          "city": "Reykjavik",      "difficulty": "jaune", "modules": ["freins_glace"],                "skillCards": 1, "custom": false },
+    { "id": "prg-jaune", "order": 11, "code": "PRG", "airport": "Václav Havel",      "city": "Prague",         "difficulty": "jaune", "modules": ["fuite_kerosene"],              "skillCards": 2, "custom": false },
+    { "id": "kul-jaune", "order": 12, "code": "KUL", "airport": "Kuala Lumpur",      "city": "Kuala Lumpur",   "difficulty": "jaune", "modules": ["kerosene"],                    "skillCards": 1, "custom": false },
+    { "id": "atl-jaune", "order": 13, "code": "ATL", "airport": "Hartsfield-Jackson","city": "Atlanta",        "difficulty": "jaune", "modules": ["fuite_kerosene"],              "skillCards": 1, "custom": false },
+
+    { "id": "gig-rouge", "order": 14, "code": "GIG", "airport": "Galeão",            "city": "Rio de Janeiro", "difficulty": "rouge", "modules": ["vent", "fuite_kerosene"],      "skillCards": 2, "custom": false },
+    { "id": "hnd-rouge", "order": 15, "code": "HND", "airport": "Haneda",            "city": "Tokyo",          "difficulty": "rouge", "modules": ["kerosene", "stagiaire"],       "skillCards": 1, "custom": false },
+    { "id": "pbh-rouge", "order": 16, "code": "PBH", "airport": "Paro",              "city": "Paro",           "difficulty": "rouge", "modules": ["kerosene", "temps_reel"],      "skillCards": 2, "custom": false },
+    { "id": "osl-rouge", "order": 17, "code": "OSL", "airport": "Gardermoen",        "city": "Oslo",           "difficulty": "rouge", "modules": ["fuite_kerosene", "freins_glace"], "skillCards": 2, "custom": false },
+
+    { "id": "tgu-noir",  "order": 18, "code": "TGU", "airport": "Toncontín",         "city": "Tegucigalpa",    "difficulty": "noir",  "modules": ["kerosene", "vent"],            "skillCards": 2, "custom": false },
+    { "id": "kef-noir",  "order": 19, "code": "KEF", "airport": "Keflavík",          "city": "Reykjavik",      "difficulty": "noir",  "modules": ["vent", "freins_glace"],        "skillCards": 2, "custom": false },
+    { "id": "kul-noir",  "order": 20, "code": "KUL", "airport": "Kuala Lumpur",      "city": "Kuala Lumpur",   "difficulty": "noir",  "modules": ["kerosene", "temps_reel"],      "skillCards": 2, "custom": false },
+    { "id": "pbh-noir",  "order": 21, "code": "PBH", "airport": "Paro",              "city": "Paro",           "difficulty": "noir",  "modules": ["kerosene", "temps_reel"],      "skillCards": 2, "custom": false }
+  ]
+}

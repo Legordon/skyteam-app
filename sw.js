@@ -3,7 +3,7 @@
    pour tout le reste (ex. Google Fonts). Incrémenter CACHE_VERSION à chaque
    déploiement pour forcer la mise à jour du cache chez l'utilisateur. */
 
-const CACHE_VERSION = "skyteam-v1";
+const CACHE_VERSION = "skyteam-v2";
 
 const APP_SHELL = [
   "./",

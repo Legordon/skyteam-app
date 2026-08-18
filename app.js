@@ -26,6 +26,17 @@ const MODULE_LABELS = {
   vent: "Vent", fuite_kerosene: "Fuite de kérosène", freins_glace: "Freins de glace",
 };
 
+/* Descriptifs courts affichés dans la modale au clic sur une carte.
+   ⚠️ Texte provisoire — à remplacer par le texte exact du carnet de vol (page 5 et suivantes). */
+const MODULE_DESCRIPTIONS = {
+  kerosene: "Gérez votre carburant : posez un dé sur la jauge à chaque tour ou perdez 6 points de kérosène. Si la jauge est à zéro, la partie est perdue.",
+  stagiaire: "Formez votre stagiaire en parallèle de l'atterrissage : placez des dés sur son tableau pour débloquer des jetons compétence avant la fin du vol.",
+  temps_reel: "Lancez un minuteur de 60 secondes pour jouer votre tour. Tout dé non joué est ignoré ; si un emplacement obligatoire reste vide, la partie est perdue.",
+  vent: "La force et l'orientation du vent influencent votre vitesse : le cadran vent s'ajoute (ou se soustrait) au total des moteurs.",
+  fuite_kerosene: "À chaque tour, le kérosène diminue de la différence entre les deux dés moteur posés — gérez cet écart pour ne pas tomber en panne sèche.",
+  freins_glace: "La piste est glacée : la gestion des freins est plus exigeante lors de la dernière manche.",
+};
+
 const skillStarSVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7-5.4-4.7 7.1-.6z"/></svg>';
 
 const STAMP_BG = `<svg class="stamp-bg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/></svg>`;
@@ -180,6 +191,7 @@ function escapeHTML(str) {
 
 const modal = document.getElementById("mission-modal");
 const modalTitle = document.getElementById("modal-title");
+const modalModules = document.getElementById("modal-modules");
 const choiceStep = document.getElementById("choice-step");
 const confirmStep = document.getElementById("confirm-step");
 const confirmText = document.getElementById("confirm-text");
@@ -191,6 +203,25 @@ const STATUS_LABEL = { success: "réussi", failed: "échoué", pending: "en atte
 function openResultModal(mission) {
   currentMission = mission;
   modalTitle.textContent = `${mission.code} — ${mission.airport}`;
+
+  if (modalModules) {
+    if (mission.modules && mission.modules.length) {
+      modalModules.innerHTML = mission.modules.map(mod => `
+        <div class="modal-module">
+          <span class="module-icon">${MODULE_ICONS[mod] || ""}</span>
+          <div>
+            <strong>${MODULE_LABELS[mod] || mod}</strong>
+            <p>${MODULE_DESCRIPTIONS[mod] || ""}</p>
+          </div>
+        </div>
+      `).join("");
+      modalModules.classList.remove("hidden");
+    } else {
+      modalModules.innerHTML = "";
+      modalModules.classList.add("hidden");
+    }
+  }
+
   choiceStep.classList.remove("hidden");
   confirmStep.classList.add("hidden");
   modal.showModal();

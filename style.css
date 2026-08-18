@@ -370,3 +370,9 @@ dialog::backdrop{ background:rgba(18,32,58,.45); }
   .card-mission{ transition:transform .15s ease; }
   .card-mission:active{ transform:scale(.98); }
 }
+
+.modal-modules { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.modal-module { display: flex; gap: 10px; align-items: flex-start; }
+.modal-module .module-icon { width: 22px; height: 22px; flex-shrink: 0; color: var(--ink, #1a1a2e); }
+.modal-module p { margin: 2px 0 0; font-size: 0.85rem; opacity: .75; }
+.hidden { display: none !important; }
